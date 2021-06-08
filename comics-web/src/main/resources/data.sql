@@ -1,0 +1,1 @@
+INSERT INTO updates (date) VALUES ({ts '2021-06-08 11:47:52.69'});
