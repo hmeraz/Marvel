@@ -7,6 +7,7 @@ import mx.com.Marvel.model.UpdatedDO;
 import mx.com.Marvel.persistence.CharacterDAO;
 import mx.com.Marvel.persistence.UpdatedDAO;
 import mx.com.Marvel.services.service.ICharacterService;
+import mx.com.Marvel.commons.utils.CustomFunction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -38,13 +39,13 @@ public class CharacterServiceImpl implements ICharacterService {
         List<CharacterDetailTO> details = new ArrayList<CharacterDetailTO>();
 
         List<CharacterDO> allCharacters = this.characterDAO.findByHero(hero);
-        List<String> characteres = allCharacters.stream().map(CharacterDO::getCharacter).distinct().collect(Collectors.toList());
+        List<String> characteres = allCharacters.stream().map(CharacterDO::getCharacter).filter(CustomFunction.distinctByKey(p -> p)).collect(Collectors.toList());
 
         for(String c:characteres) {
             List<CharacterDO> character = this.characterDAO.findByHeroAndCharacter(hero, c);
             CharacterDetailTO characterDetailTO = new CharacterDetailTO();
             characterDetailTO.setCharacter(c);
-            characterDetailTO.setComics(character.stream().map(CharacterDO::getComic).collect(Collectors.toList()));
+            characterDetailTO.setComics(character.stream().map(CharacterDO::getComic).filter(CustomFunction.distinctByKey(p -> p)).collect(Collectors.toList()));
             details.add(characterDetailTO);
         }
 

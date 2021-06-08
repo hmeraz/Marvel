@@ -69,8 +69,8 @@ public class ApiMarvelServiceImpl implements IApiMarvelService {
                     for(ItemsCharacterDO characterDO : resultDO.getCharacters().getItems()) {
                         CharacterDO character = new CharacterDO();
                         character.setHero(comic == "Iron Man" ? "ironman" : "capamerica");
-                        character.setCharacter(resultDO.getTitle());
-                        character.setComic(characterDO.getName());
+                        character.setCharacter(characterDO.getName());
+                        character.setComic(resultDO.getTitle());
                         characterDAO.save(character);
                     }
                 }
